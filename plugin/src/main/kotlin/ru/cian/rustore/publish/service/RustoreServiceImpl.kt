@@ -164,6 +164,38 @@ internal class RustoreServiceImpl constructor(
         }
     }
 
+    override fun uploadAabBuildFile(token: String, applicationId: String, versionId: Int, buildFile: File) {
+        val fileBody = buildFile.asRequestBody(HttpClientHelper.MEDIA_TYPE_AAB)
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("file", buildFile.name, fileBody)
+            .build()
+
+        val headers = mutableMapOf(
+            "accept" to "application/json",
+            "Public-Token" to token,
+        )
+        logger.i("""
+            curl --location --request POST \
+            --header 'Content-Type: application/json' \
+            --header 'Public-Token: $token' \            
+            --form file='@${buildFile.absolutePath}' \
+            $DOMAIN_URL/public/v1/application/$applicationId/version/$versionId/aab
+        """.trimIndent())
+
+        val response = httpClient.post<UploadAppFileResponse>(
+            url = "$DOMAIN_URL/public/v1/application/$applicationId/version/$versionId/aab",
+            body = requestBody,
+            headers = headers,
+        )
+
+        check(response.code == "OK") {
+            "Build file uploading is failed! " +
+                    "Reason code: ${response.code}, " +
+                    "message: ${response.message}"
+        }
+    }
+
     override fun submit(
         token: String,
         applicationId: String,

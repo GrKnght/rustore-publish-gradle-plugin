@@ -33,7 +33,7 @@ open class RustorePublishTask
         description = "Upload and publish application build file " +
             "to RuStore for ${variant.name} buildType"
     }
-    
+
     private val logger by lazy { Logger(project) }
 
     @get:Internal
@@ -188,13 +188,26 @@ open class RustorePublishTask
         )
 
         logger.v("5/6. Upload build file '${config.artifactFile}'")
-        rustoreService.uploadBuildFile(
-            token = token,
-            applicationId = config.applicationId,
-            mobileServicesType = config.mobileServicesType.value,
-            versionId = appVersionId,
-            buildFile = config.artifactFile
-        )
+        when (config.artifactFormat) {
+            BuildFormat.APK -> {
+                rustoreService.uploadBuildFile(
+                    token = token,
+                    applicationId = config.applicationId,
+                    mobileServicesType = config.mobileServicesType.value,
+                    versionId = appVersionId,
+                    buildFile = config.artifactFile
+                )
+            }
+
+            BuildFormat.AAB -> {
+                rustoreService.uploadAabBuildFile(
+                    token = token,
+                    applicationId = config.applicationId,
+                    versionId = appVersionId,
+                    buildFile = config.artifactFile,
+                )
+            }
+        }
 
         logger.v("6/6. Submit publication")
         val summitResult = rustoreService.submit(
