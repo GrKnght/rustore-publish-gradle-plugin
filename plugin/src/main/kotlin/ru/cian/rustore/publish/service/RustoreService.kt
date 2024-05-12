@@ -29,6 +29,13 @@ internal interface RustoreService {
         buildFile: File,
     )
 
+    fun uploadAabBuildFile(
+        token: String,
+        applicationId: String,
+        versionId: Int,
+        buildFile: File,
+    )
+
     fun submit(
         token: String,
         applicationId: String,
