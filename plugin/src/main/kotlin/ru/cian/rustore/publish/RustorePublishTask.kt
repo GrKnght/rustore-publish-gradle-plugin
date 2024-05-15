@@ -209,18 +209,28 @@ open class RustorePublishTask
             }
         }
 
-        logger.v("6/6. Submit publication")
-        val summitResult = rustoreService.submit(
-            token = token,
-            applicationId = config.applicationId,
-            versionId = appVersionId,
-            priorityUpdate = 5,
-        )
+        when (config.deployType) {
+            DeployType.DRAFT -> {
+                logger.v("6/6. Deploy type DRAFT selected, job complete")
+            }
 
-        if (summitResult) {
-            logger.v("Upload and submit build file - Successfully Done!")
-        } else {
-            logger.v("Upload and submit build file - Failed!")
+            DeployType.PUBLISH -> {
+                logger.v("6/6. Submit publication")
+                val summitResult = rustoreService.submit(
+                    token = token,
+                    applicationId = config.applicationId,
+                    versionId = appVersionId,
+                    priorityUpdate = 5,
+                )
+
+                if (summitResult) {
+                    logger.v("Upload and submit build file - Successfully Done!")
+                } else {
+                    logger.v("Upload and submit build file - Failed!")
+                }
+            }
+
+            else -> Unit
         }
     }
 
