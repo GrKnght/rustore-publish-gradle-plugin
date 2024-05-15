@@ -17,7 +17,7 @@ internal interface RustoreService {
     fun createDraft(
         token: String,
         applicationId: String,
-        whatsNew: String,
+        whatsNew: String?,
     ): Int
 
     @Suppress("LongParameterList")

@@ -12,7 +12,7 @@ internal class MockRustoreService : RustoreService {
     override fun createDraft(
         token: String,
         applicationId: String,
-        whatsNew: String,
+        whatsNew: String?,
     ): Int {
         return -1
     }
