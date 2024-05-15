@@ -184,7 +184,7 @@ open class RustorePublishTask
         val appVersionId = rustoreService.createDraft(
             token = token,
             applicationId = config.applicationId,
-            whatsNew = config.releaseNotes?.first()?.newFeatures ?: "",
+            whatsNew = config.releaseNotes?.first()?.newFeatures,
         )
 
         logger.v("5/6. Upload build file '${config.artifactFile}'")
