@@ -31,9 +31,9 @@ internal class HttpClientHelper constructor(
     inline fun <reified T> execute(requestBuilder: Request.Builder, url: String, headers: Map<String, String>?): T {
         try {
             val client = OkHttpClient.Builder()
-                .connectTimeout(REQUEST_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(REQUEST_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(REQUEST_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
                 .build()
             val request = requestBuilder
                 .url(url)
@@ -53,6 +53,8 @@ internal class HttpClientHelper constructor(
     companion object {
         val MEDIA_TYPE_JSON = "application/json;charset=utf-8".toMediaType()
         val MEDIA_TYPE_AAB = "application/octet-stream".toMediaType()
-        private const val REQUEST_TIMEOUT = 300L
+        private const val CONNECT_TIMEOUT = 60L
+        private const val READ_TIMEOUT = 60L
+        private const val WRITE_TIMEOUT = 60L
     }
 }
