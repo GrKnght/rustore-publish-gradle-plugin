@@ -189,6 +189,7 @@ internal class RustoreServiceImpl constructor(
             headers = headers,
         )
 
+        logger.v("response=$response")
         check(response.code == "OK") {
             "Build file uploading is failed! " +
                     "Reason code: ${response.code}, " +
