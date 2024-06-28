@@ -53,8 +53,8 @@ internal class HttpClientHelper constructor(
     companion object {
         val MEDIA_TYPE_JSON = "application/json;charset=utf-8".toMediaType()
         val MEDIA_TYPE_AAB = "application/octet-stream".toMediaType()
-        private const val CONNECT_TIMEOUT = 60L
-        private const val READ_TIMEOUT = 60L
+        private const val CONNECT_TIMEOUT = 120L
+        private const val READ_TIMEOUT = 120L
         private const val WRITE_TIMEOUT = 120L
     }
 }

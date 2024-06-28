@@ -105,7 +105,7 @@ internal class RustoreServiceImpl constructor(
             publishDateTime = publishDate,
         )
 
-        logger.i("""
+        logger.v("""
             curl --location --request POST \
             $DOMAIN_URL/public/v1/application/$applicationId/version \
             --header 'Content-Type: application/json' \
@@ -126,6 +126,7 @@ internal class RustoreServiceImpl constructor(
 
         if (response.code == "ERROR" && response.message != null) {
 
+            logger.v("Error Message: ${response.message}")
             val searchString = "ID ="
             val indexOf = response.message.indexOf(searchString)
 
@@ -259,6 +260,7 @@ internal class RustoreServiceImpl constructor(
                 "Public-Token" to token,
             ),
         )
+        logger.v("Submit Result. Code: ${response.code} Message: ${response.message}")
         return response.code == "OK"
     }
 
