@@ -55,6 +55,6 @@ internal class HttpClientHelper constructor(
         val MEDIA_TYPE_AAB = "application/octet-stream".toMediaType()
         private const val CONNECT_TIMEOUT = 60L
         private const val READ_TIMEOUT = 60L
-        private const val WRITE_TIMEOUT = 60L
+        private const val WRITE_TIMEOUT = 120L
     }
 }

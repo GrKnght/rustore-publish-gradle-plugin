@@ -93,6 +93,13 @@ open class RustorePublishTask
 
     @get:Internal
     @set:Option(
+        option = "publishType",
+        description = "Publish type sample"
+    )
+    var publishType: PublishType? = null
+
+    @get:Internal
+    @set:Option(
         option = "releaseTime",
         description = "Release time in UTC format. The format is $RELEASE_DATE_TIME_FORMAT."
     )
@@ -144,6 +151,7 @@ open class RustorePublishTask
             mobileServicesType = mobileServicesType,
             buildFormat = buildFormat,
             buildFile = buildFile,
+            publishType = publishType,
             releaseTime = releaseTime,
             releasePhasePercent = releasePhasePercent,
             releaseNotes = releaseNotes,
@@ -184,6 +192,8 @@ open class RustorePublishTask
         val appVersionId = rustoreService.createDraft(
             token = token,
             applicationId = config.applicationId,
+            publishType = config.publishType,
+            releaseTime = config.releaseTime,
             whatsNew = config.releaseNotes?.first()?.newFeatures,
         )
 

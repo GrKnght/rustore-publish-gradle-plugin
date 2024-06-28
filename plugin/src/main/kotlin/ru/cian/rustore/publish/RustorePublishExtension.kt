@@ -31,6 +31,7 @@ class RustorePublishExtensionConfig(
     var mobileServicesType: MobileServicesType = MobileServicesType.UNKNOWN
     var buildFormat: BuildFormat = BuildFormat.APK
     var buildFile: String? = null
+    var publishType: PublishType? = null
     var releaseTime: String? = null
     var releasePhase: ReleasePhaseExtension? = null
     var releaseNotes: List<ReleaseNote>? = null
@@ -124,4 +125,21 @@ enum class DeployType {
      * Deploy, save as draft and submit build on users;
      */
     PUBLISH,
+}
+
+enum class PublishType {
+    /**
+     *  Publication after manual action
+     */
+    MANUAL,
+
+    /**
+     *  Auto publication after moderation pass
+     */
+    INSTANTLY,
+
+    /**
+     *  Delayed publication. Require publication date in yyyy-MM-dd'T'HH:mm:ssXXX format
+     */
+    DELAYED,
 }
