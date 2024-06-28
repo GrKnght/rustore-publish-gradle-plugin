@@ -4,6 +4,7 @@ import ru.cian.rustore.publish.BuildFormat
 import ru.cian.rustore.publish.Credentials
 import ru.cian.rustore.publish.InputPluginCliParam
 import ru.cian.rustore.publish.InputPluginConfig
+import ru.cian.rustore.publish.PublishType
 import ru.cian.rustore.publish.ReleaseNotesConfig
 import ru.cian.rustore.publish.ReleasePhaseConfig
 import ru.cian.rustore.publish.RustorePublishExtensionConfig
@@ -24,6 +25,7 @@ internal class ConfigProvider(
         val deployType = cli.deployType ?: extension.deployType
         val artifactFormat = cli.buildFormat ?: extension.buildFormat
         val customBuildFilePath: String? = cli.buildFile ?: extension.buildFile
+        val publishType = cli.publishType ?: extension.publishType ?: PublishType.MANUAL
         val releaseTime: String? = cli.releaseTime ?: extension.releaseTime
         val releasePhase = getReleasePhaseConfig()
         val credentialsConfig = getCredentialsConfig()
@@ -47,6 +49,7 @@ internal class ConfigProvider(
             mobileServicesType = mobileServicesType,
             artifactFormat = actualArtifactFormat,
             artifactFile = artifactFile,
+            publishType = publishType,
             releaseTime = releaseTime,
             releasePhase = releasePhase,
             releaseNotes = releaseNotes,

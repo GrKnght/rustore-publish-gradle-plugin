@@ -138,6 +138,7 @@ internal class ConfigProviderTest {
             artifactFormat = BuildFormat.APK,
             mobileServicesType = MobileServicesType.UNKNOWN,
             artifactFile = File(ARTIFACT_APK_FILE_PATH),
+            publishType = null,
             releaseTime = null,
             releasePhase = null,
             releaseNotes = null,
@@ -185,6 +186,7 @@ internal class ConfigProviderTest {
             artifactFormat = BuildFormat.AAB,
             artifactFile = File(ARTIFACT_AAB_FILE_SECOND_PATH),
             mobileServicesType = MobileServicesType.UNKNOWN,
+            publishType = null,
             releaseTime = "2019-10-18T21:00:00+0300",
             releasePhase = ReleasePhaseConfig(
                 percent = 10.05
@@ -236,6 +238,7 @@ internal class ConfigProviderTest {
             artifactFormat = BuildFormat.APK,
             mobileServicesType = MobileServicesType.UNKNOWN,
             artifactFile = File(ARTIFACT_APK_FILE_PATH),
+            publishType = null,
             releaseTime = null,
             releasePhase = null,
             releaseNotes = null,
@@ -319,6 +322,7 @@ internal class ConfigProviderTest {
             artifactFormat = BuildFormat.APK,
             mobileServicesType = MobileServicesType.UNKNOWN,
             artifactFile = File(ARTIFACT_APK_FILE_PATH),
+            publishType = null,
             releaseTime = null,
             releasePhase = null,
             releaseNotes = null,

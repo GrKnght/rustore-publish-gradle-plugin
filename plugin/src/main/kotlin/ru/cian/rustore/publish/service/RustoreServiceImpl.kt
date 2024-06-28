@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import ru.cian.rustore.publish.PublishType
 import ru.cian.rustore.publish.models.request.AccessTokenRustoreRequest
 import ru.cian.rustore.publish.models.request.AppDraftRequest
 import ru.cian.rustore.publish.models.response.AccessTokenResponse
@@ -12,7 +13,11 @@ import ru.cian.rustore.publish.models.response.DeleteAppDraftResponse
 import ru.cian.rustore.publish.models.response.SubmitPublicationResponse
 import ru.cian.rustore.publish.models.response.UploadAppFileResponse
 import ru.cian.rustore.publish.utils.Logger
+import ru.cian.rustore.publish.utils.ONE_DAY_IN_MILLIS
+import ru.cian.rustore.publish.utils.ONE_HOUR_IN_MILLIS
+import ru.cian.rustore.publish.utils.SIMPLE_DATE_TIME_WITH_TIMEZONE
 import java.io.File
+import java.util.Calendar
 
 private const val DOMAIN_URL = "https://public-api.rustore.ru"
 
@@ -60,10 +65,44 @@ internal class RustoreServiceImpl constructor(
     override fun createDraft(
         token: String,
         applicationId: String,
+        publishType: PublishType?,
+        releaseTime: String?,
         whatsNew: String?,
     ): Int {
+        fun getCurrentTimePlusOneDay(): String {
+            val result = Calendar.getInstance().apply {
+                timeInMillis += ONE_DAY_IN_MILLIS + ONE_HOUR_IN_MILLIS
+            }
+            return SIMPLE_DATE_TIME_WITH_TIMEZONE.format(result.time)
+        }
+
+        val publishDate = try {
+            if (publishType == PublishType.DELAYED) {
+                if (releaseTime != null) {
+                    SIMPLE_DATE_TIME_WITH_TIMEZONE.parse(releaseTime)?.let { safeDate ->
+                        if (Calendar.getInstance().timeInMillis - safeDate.time <= ONE_DAY_IN_MILLIS) {
+                            getCurrentTimePlusOneDay()
+                        } else {
+                            releaseTime
+                        }
+                    }
+                } else {
+                    getCurrentTimePlusOneDay()
+                }
+            } else {
+                null
+            }
+        } catch (ex: Exception) {
+            logger.v("Exception occurred: ${ex.message ?: "Empty"}")
+            null
+        }
+
+        val type = if (publishDate != null) PublishType.DELAYED else PublishType.MANUAL
+
         val bodyRequest = AppDraftRequest(
             whatsNew = whatsNew,
+            publishType = type.name,
+            publishDateTime = publishDate,
         )
 
         logger.i("""
@@ -110,6 +149,8 @@ internal class RustoreServiceImpl constructor(
             return createDraft(
                 token = token,
                 applicationId = applicationId,
+                publishType = publishType,
+                releaseTime = releaseTime,
                 whatsNew = whatsNew,
             )
         }

@@ -1,5 +1,6 @@
 package ru.cian.rustore.publish.service
 
+import ru.cian.rustore.publish.PublishType
 import java.io.File
 
 /**
@@ -17,6 +18,8 @@ internal interface RustoreService {
     fun createDraft(
         token: String,
         applicationId: String,
+        publishType: PublishType?,
+        releaseTime: String?,
         whatsNew: String?,
     ): Int
 
