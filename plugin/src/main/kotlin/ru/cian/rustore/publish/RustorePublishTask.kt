@@ -47,7 +47,7 @@ open class RustorePublishTask
     @get:Internal
     @set:Option(
         option = "credentialsPath",
-        description = "File path with AppGallery credentials params ('company_id' and 'client_secret')"
+        description = "File path with AppGallery credentials params ('key_id' and 'client_secret')"
     )
     var credentialsPath: String? = null
 
